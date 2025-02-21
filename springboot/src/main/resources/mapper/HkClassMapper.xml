@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.HkClassMapper">
+
+    <select id="selectAll" resultType="com.example.entity.HkClass">
+        select `hk_class`.* from `hk_class`
+
+        <where>
+			<if test="classiD != null and classiD != ''">
+				and `hk_class`.`classi_d` = #{classiD}
+			</if>
+			<if test="className != null and className != ''">
+				and `hk_class`.`class_name` like concat ('%', #{className}, '%')
+			</if>
+			<if test="graduationTime != null and graduationTime != ''">
+				and `hk_class`.`graduation_time` like concat ('%', #{graduationTime}, '%')
+			</if>
+			<if test="graduation != null and graduation != ''">
+				and `hk_class`.`graduation` like concat ('%', #{graduation}, '%')
+			</if>
+
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.HkClass">
+        select * from hk_class where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from hk_class where  id = #{id}
+    </delete>
+
+</mapper>

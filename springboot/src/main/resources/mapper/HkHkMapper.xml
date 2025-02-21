@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.HkHkMapper">
+
+    <select id="selectAll" resultType="com.example.entity.HkHk">
+        select `hk_hk`.*, `hk_student`.`studentid` as studentid, `hk_student`.`studentname` as studentName, `hk_student`.`student_class` as studentCalss, `hk_student`.`telephone_number` as telephoneNumber, `hk_student`.`student_teacher` as studentTeache, `hk_hksc`.`generate` as generate, `zh_todaybirthday`.`sent_successfully` as sentSuccessfully from `hk_hk`
+		left join `hk_student` on `hkHk`.`hk_student_id` = `hk_student`.id
+		left join `hk_hksc` on `hkHk`.`hk_hksc_id` = `hk_hksc`.id
+		left join `zh_todaybirthday` on `hkHk`.`zh_todaybirthday_id` = `zh_todaybirthday`.id
+
+        <where>
+			<if test="studentid != null and studentid != ''">
+				and `hk_student`.`studentid` like concat ('%', #{studentid}, '%')
+			</if>
+			<if test="studentName != null and studentName != ''">
+				and `hk_student`.`studentname` like concat ('%', #{studentName}, '%')
+			</if>
+			<if test="studentCalss != null and studentCalss != ''">
+				and `hk_student`.`student_class` like concat ('%', #{studentCalss}, '%')
+			</if>
+			<if test="telephoneNumber != null and telephoneNumber != ''">
+				and `hk_student`.`telephone_number` like concat ('%', #{telephoneNumber}, '%')
+			</if>
+			<if test="generate != null and generate != ''">
+				and `hk_hksc`.`generate` like concat ('%', #{generate}, '%')
+			</if>
+			<if test="sentSuccessfully != null and sentSuccessfully != ''">
+				and `zh_todaybirthday`.`sent_successfully` like concat ('%', #{sentSuccessfully}, '%')
+			</if>
+
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.HkHk">
+        select * from hk_hk where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from hk_hk where  id = #{id}
+    </delete>
+
+</mapper>

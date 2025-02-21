@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.HkDxtjMapper">
+
+    <select id="selectAll" resultType="com.example.entity.HkDxtj">
+        select `hk_dxtj`.*, `hk_student`.`studentid` as studentis, `hk_student`.`studentname` as studentname, `hk_student`.`telephone_number` as studentName from `hk_dxtj`
+		left join `hk_student` on `hkDxtj`.`hk_student_id` = `hk_student`.id
+
+        <where>
+			<if test="studentis != null and studentis != ''">
+				and `hk_student`.`studentid` like concat ('%', #{studentis}, '%')
+			</if>
+			<if test="studentname != null and studentname != ''">
+				and `hk_student`.`studentname` like concat ('%', #{studentname}, '%')
+			</if>
+			<if test="studentName != null and studentName != ''">
+				and `hk_student`.`telephone_number` like concat ('%', #{studentName}, '%')
+			</if>
+			<if test="sendResults != null and sendResults != ''">
+				and `hk_dxtj`.`send_results` like concat ('%', #{sendResults}, '%')
+			</if>
+
+        </where>
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.HkDxtj">
+        select * from hk_dxtj where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from hk_dxtj where  id = #{id}
+    </delete>
+
+</mapper>
